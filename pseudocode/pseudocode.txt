@@ -1,0 +1,37 @@
+This file contains my pseudocode for deduper 
+
+Functions
+Load_aligned_genome(input_file):
+'''this function will read an input_file of aligned genome and store it as a data structure'''
+
+return aligned_genome
+
+identify_duplicates(aligned_genome):
+'''this function will create a dictionary called genome_count_dict={sequences, occurences}, and iterate through the aligned genome to extract sequences to count number of occurences. '''
+
+read file, extracts their sequences. 
+    If they're in the genome_count_dict, +1.
+    If not in genome_count_dict, 1.
+
+return genome_count_dict
+ 
+
+filter_out_dups(aligned_genome, identify_duplicates):
+'''this function will iterate through the aligned_genome and genome_count_dict to store non-duplicate genomes in a list. It will give us a list called genome_final that has each sequence represented once through the genome'''
+
+creates a dictionary to store seq that have already been included (included_seq) and creates an empty list (genome_final) to store non-duplicated genome. 
+This will iterate through the aligned genome
+    If seq in identify_duplicates and seq not in included_seq: add first instance to genome_final. 
+    Elif seq not not in identify_duplicates: add non_dup directly to genome_final
+
+return genome_final
+
+write_out(genome_final, "output_file.txt"):
+```this function will take the genome_final list and write it to an output file```
+
+
+Main Code
+aligned_genome_data= Load_aligned_genome(input_file)
+pcr_duplicates=identify_duplicates(aligned_genome)
+filter_genome=filter_out_dups(aligned_genome, pcr_duplicates)
+write_out(filter_genome, "output_file")
