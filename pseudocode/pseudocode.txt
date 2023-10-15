@@ -1,5 +1,22 @@
 This file contains my pseudocode for deduper 
 
+Problem 
+
+This code will be used to remove PCR duplicates from a SAM file. A pcr duplicate is a read that came from the same DNA fragment. This will help to minimize bias and reduce false positive variant calls. The Unique Molecular Index (UMI) will help in the removal.
+All duplicates would contain the following:
+
+Same alignemnet position
+    *Chromosome (RNAME - SAM col 3)
+    *Position (POS - SAM col 4)
+    *Strang (FLAG - SAM col 2)
+Soft clipping
+    *CIGAR string (CIGAR - SAM col 6)
+Same Unique Molecular Index
+    *UMI (QNAME - SAM col 1)
+
+
+
+
 Functions
 Load_aligned_genome(input_file):
 '''this function will read an input_file of aligned genome and store it as a data structure'''
