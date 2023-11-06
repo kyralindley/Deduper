@@ -1,4 +1,3 @@
-This file contains an example input SAM file
 Read1   99  chr1  7  30  10M2D20M  =  37  39  ATCGTAGCTAGCTAGCTAGC  *  NM:i:2  MD:Z:10^CC20  AS:i:50
 Read2   147 chr1  37  30  10M2D20M  =  7   -39  ATCGTAGCTAGCTAGCTAGC  *  NM:i:2  MD:Z:10^CC20  AS:i:50
 Read3   99  chr2  15  30  15M5S   =  41  31  CGTAGCTAGCTAGCTAGCATCGT  *  NM:i:0  MD:Z:15  AS:i:50
