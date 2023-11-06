@@ -1,0 +1,6 @@
+Below are the results of the file  C1_SE_uniqAlign.sorted.sam ran on my deduper code.
+
+Pre-processing uniq reads: 18186409
+Finalized number of uniq reads: 13719048
+Number of duplicates: 4467362
+Percent of duplicates: 24.56% of original alignment were duplicatea 

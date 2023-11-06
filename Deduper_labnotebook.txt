@@ -1,0 +1,92 @@
+THis is my lab note boook for Deduper 
+------------
+Oct 17, 2023
+------------
+Office hours with Leslie
+DOES NOT ACCOUNT FOR HARD CLIPPING add into -h argument into argparse 
+
+Dedupes must share:
+Chorome (Sam col 3)
+UMI (end of Qname)
+5' strand of read 
+    if on +: 
+        align position (1 based left most) - Col 4 IF NO SOFT CLIP CAN USE THIS 
+                    IF SOFT CLIPPING: Look at Cigar string (Col 6)
+                    Left hand soft clipping: alignposition-left hand soft clip 
+    if on -:
+        align position (col 4) 
+        IF SOFT clipping 
+        left hand: alignment position + the M letter number 
+        parse cigar string  
+            align position + M's + right hand soft clipping + deletion + N's 
+            ignore the I's and left hand soft clipping 
+            deletion - gap in target sequence 
+strand(Bitwise flag Col2 bit 16)
+---------------
+Oct 21st, 2023
+---------------
+Today, I am trying to get my adjust cigar position function to work, it wokrs on cigar strings but it counts soft clipping on both sides  :( 
+
+need to change my code so that it adjusts according to these rules:
+if it is the plus strand:
+    it will only count S's on the left side of the M's and ignores any S's after
+        adjusted position = positiion (int(line.split()[3])) + lefthand soft clipping + # M's + # of D' + # of N'S
+if it is the minus strand:
+    it will only count S's on the right side of the M and ignore any S's on the left side 
+        adjusted position = positiion (int(line.split()[3])) +right hand soft clipping # M's + # of D' + # of N'S
+
+I've made a little progress... I am asking Jason for help via slack and giving up on this for now 
+So yay i got it to work... now i need to figure out the best way to implement it into my code  problem for another day :)
+-------------------
+October 30, 2023
+-----------------
+Today, I want to make a better execution plan for working on this thorughout the week. First, I need to implement some changes I saw that were required by leslie in the syllabus.
+First being chaning the UMI list file into argpasrse
+umis="/projects/bgmp/klindley/bioinfo/Bi624/dedup/Deduper/STL96.txt"
+I added a function "has soft clipping" to tackle the position issue... I need to figure out how to make it output position=posiiton if there is no soft clipping
+
+Where I need to pick up next is figuring out how to save the first sam read into the alignment list, then hold the next line in memory, so comparisons can happen
+
+Then, I need to figure out how to do the comparisons line 
+
+Also, need to figure out what im doing with my intermediate file 
+
+-----------------
+October 31, 2023
+-----------------
+WOndering if i should change my alignment list to a set? 
+
+Need to implement these changes 
+Include the following argparse options
+-f, --file: designates absolute file path to sorted sam file
+-o, --outfile: designates absolute file path to sorted sam file
+-u, --umi: designates file containing the list of UMIs
+-h, --help: prints a USEFUL help message and any assumptions your code makes (see argparse docs)
+That is, your code must be able to run (in a single step) if given a command in the format:
+./<your_last_name>_deduper.py -u STL96.txt -f <in.sam> -o <out.sam>
+
+Need to also add uniq Uniq reads per chrom
+
+
+Next time I want to make sure that my has_soft_clipping function checks for the correct soft clipping
+
+----------------
+November 1,2023
+----------------
+I think my code is ready ish to try and go, so I am going to start trying to do it with my test.sam file 
+./lindley_deduper.py -f test.sam -u /projects/bgmp/klindley/bioinfo/Bi624/dedup/Deduper/STL96.txt -o testing_my_script.txt
+./lindley_deduper.py -f samtest.txt -u /projects/bgmp/klindley/bioinfo/Bi624/dedup/Deduper/STL96.txt -o testing_my_script.txt
+
+/projects/bgmp/shared/deduper/C1_SE_uniqAlign.sam
+
+cp /projects/bgmp/shared/deduper/C1_SE_uniqAlign.sam .
+
+ will run samtools on it now 
+ samtools sort C1_SE_uniqAlign.sam -o sorted_C1_SE_uniqAlign.sam
+
+ ./lindley_deduper.py -f samtest.txt -u /projects/bgmp/klindley/bioinfo/Bi624/dedup/Deduper/STL96.txt -o testing_my_script.txt
+
+./lindley_deduper.py -f test.sam -u /projects/bgmp/klindley/bioinfo/Bi624/dedup/Deduper/STL96.txt -o testing_my_script.txt
+ MY SCRIPT WORKS CORRECTLY WAHOOOOOOOO
+grep "^@" output.txt (64)
+grep -v "^@" output.txt | wc -l
